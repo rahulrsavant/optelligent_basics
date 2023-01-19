@@ -1,0 +1,8 @@
+com/example/mapper/ProductMapper.class
+com/example/entity/Product.class
+com/example/SpringBootCrudExample2Application.class
+com/example/controller/ProductController.class
+com/example/dto/ProductDTO.class
+com/example/repository/ProductRepository.class
+com/example/mapper/ProductMapperImpl.class
+com/example/service/ProductService.class

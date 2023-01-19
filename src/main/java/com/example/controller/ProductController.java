@@ -1,12 +1,17 @@
 package com.example.controller;
 
+import com.example.dto.ProductDTO;
+
 //some changes
 ///some more changes
+//sdfjlsdkjflksj
 
 
 import com.example.entity.Product;
+import com.example.mapper.ProductMapper;
 import com.example.service.ProductService;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +19,18 @@ import java.util.List;
 
 @RestController
 public class ProductController {
+	
+	
+	private ProductService service;
+	
 
-    @Autowired
-    private ProductService service;
 
-    @PostMapping("/addProduct")
+    public ProductController(ProductService service) {
+		super();
+		this.service = service;
+	}
+
+	@PostMapping("/addProduct")
     public Product addProduct(@RequestBody Product product) {
         return service.saveProduct(product);
     }
@@ -39,8 +51,10 @@ public class ProductController {
     }
 
     @GetMapping("/product/{name}")
-    public Product findProductByName(@PathVariable String name) {
-        return service.getProductByName(name);
+    public ProductDTO findProductByName(@PathVariable String name) {
+        
+        ProductDTO productDTO=service.getProductByName(name);
+        return productDTO;
     }
 
     @PutMapping("/update")

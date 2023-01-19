@@ -1,50 +1,66 @@
 package com.example.service;
 
-import com.example.entity.Product;
-import com.example.repository.ProductRepository;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.dto.ProductDTO;
+import com.example.entity.Product;
+import com.example.mapper.ProductMapper;
+import com.example.repository.ProductRepository;
 
 @Service
 public class ProductService {
-    @Autowired
-    private ProductRepository repository;
+	
+	private ProductRepository repository;
+	private ProductMapper productMapper;
 
-    public Product saveProduct(Product product) {
-        return repository.save(product);
-    }
+	@Autowired
+	public ProductService(ProductRepository repository, ProductMapper mapper) {
+		this.repository = repository;
+		this.productMapper=mapper;
+	}
 
-    public List<Product> saveProducts(List<Product> products) {
-        return repository.saveAll(products);
-    }
+	public Product saveProduct(Product product) {
+		return repository.save(product);
+	}
 
-    public List<Product> getProducts() {
-        return repository.findAll();
-    }
+	public List<Product> saveProducts(List<Product> products) {
+		return repository.saveAll(products);
+	}
 
-    public Product getProductById(int id) {
-        return repository.findById(id).orElse(null);
-    }
+	public List<Product> getProducts() {
+		return repository.findAll();
+	}
 
-    public Product getProductByName(String name) {
-        return repository.findByName(name);
-    }
+	public Product getProductById(int id) {
+		return repository.findById(id).orElse(null);
+	}
 
-    public String deleteProduct(int id) {
-        repository.deleteById(id);
-        return "product removed !! " + id;
-    }
+	public ProductDTO getProductByName(String name) {
 
-    public Product updateProduct(Product product) {
-        Product existingProduct = repository.findById(product.getId()).orElse(null);
-        existingProduct.setName(product.getName());
-        existingProduct.setQuantity(product.getQuantity());
-        existingProduct.setPrice(product.getPrice());
-        return repository.save(existingProduct);
-    }
 
+		System.out.println("*****************" + name);
+		name = "product1";
+		Product product = repository.findByName(name);
+
+		ProductDTO productDTO = productMapper.getModelFromEntity(product);
+
+		return productDTO;
+	}
+
+	public String deleteProduct(int id) {
+		repository.deleteById(id);
+		return "product removed !! " + id;
+	}
+
+	public Product updateProduct(Product product) {
+		Product existingProduct = repository.findById(product.getId()).orElse(null);
+		existingProduct.setName(product.getName());
+		existingProduct.setQuantity(product.getQuantity());
+		existingProduct.setPrice(product.getPrice());
+		return repository.save(existingProduct);
+	}
 
 }
